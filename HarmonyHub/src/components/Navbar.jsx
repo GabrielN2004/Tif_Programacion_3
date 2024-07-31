@@ -1,4 +1,5 @@
 //*Importamos los styles
+import'./styles/Navbar.css'
 import 'bulma/css/bulma.min.css';
 //*Importamos Font-Awesome 
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -8,7 +9,7 @@ export function Navbar({ isDarkMode, toggleDarkMode }) {
       <nav className={`navbar ${isDarkMode ? 'has-background-dark has-text-white' : 'is-light'}`} role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="/">
-            <h1 className={`title ${isDarkMode ? 'has-text-white' : ''}`}>HarmonyHub</h1>
+            <h1 className={`title ${isDarkMode ? 'has-text-white' : 'has-text-black'}`}>HarmonyHub</h1>
           </a>
         </div>
   
@@ -24,7 +25,10 @@ export function Navbar({ isDarkMode, toggleDarkMode }) {
             <div className="navbar-item">
               <div className="field has-addons">
                 <div className="control">
-                  <input className="input" type="text" placeholder="Search..." />
+                  <input className={`input ${isDarkMode ? 'has-background-grey-lighter' : 'has-background-light'}`}
+                    type="text"
+                    placeholder="Search..."
+                    style={{ color: isDarkMode ? 'black' : 'black' }}/>
                 </div>
                 <div className="control">
                   <button className="button is-info">
