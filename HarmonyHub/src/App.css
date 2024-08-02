@@ -1,9 +1,0 @@
-/* Estilos para el placeholder en modo claro */
-.input::placeholder {
-    color: #7a7a7a; /* Color gris por defecto para el placeholder */
-}
-
-  /* Estilos para el placeholder en modo oscuro */
-.input-dark::placeholder {
-    color: #a9a9a9; /* Color gris más claro para el placeholder en modo oscuro */
-}  
