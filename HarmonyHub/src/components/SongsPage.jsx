@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SongsCard } from './SongsCard';
+import { SongsCard } from './SongsCard.jsx';
 import 'bulma/css/bulma.min.css';
 
 export function SongsPage({ songs }) {
