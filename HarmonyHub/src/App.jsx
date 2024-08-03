@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar } from "./components/Navbar.jsx";
-import './App.css'
+import '../src/components/styles/App.css'
 import { SongsPage } from "./components/SongsPage.jsx";
 //import { FooterBar } from "./components/Footer.jsx";
 

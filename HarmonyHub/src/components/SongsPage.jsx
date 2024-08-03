@@ -4,20 +4,40 @@ import 'bulma/css/bulma.min.css';
 
 export function SongsPage({ songs }) {
     const [mostrarModal, setMostrarModal] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+
+    const toggleDropdown = () => {
+        setIsActive(!isActive);
+    };
 
     const abrirModal = () => {
         setMostrarModal(true);
-    }
+    };
 
     const cerrarModal = () => {
         setMostrarModal(false);
-    }
+    };
 
     return (
         <div>
             <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', marginLeft: '10px' }}>
                 <h1 className="title">Canciones</h1>
-                <button className="button is-link" onClick={abrirModal} style={{marginRight: '10px'}}>Agregar una canción</button>
+                <div className={`dropdown ${isActive ? 'is-active' : ''}`}>
+                    <div className="dropdown-trigger">
+                        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu" onClick={toggleDropdown} style={{marginRight:'10px'}}>
+                            <span>Configuracion</span>
+                            <span className="icon is-small">
+                                <i className="fas fa-cog" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                        <div className="dropdown-content">
+                            <a className="dropdown-item">New Songs</a>
+                            <a className="dropdown-item">Modification</a>
+                        </div>
+                    </div>
+                </div>
             </header>
 
             {mostrarModal && (
