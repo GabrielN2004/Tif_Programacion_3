@@ -29,7 +29,7 @@ export function Navbar() {
       <div className="navbar-menu">
         <div className="navbar-start">
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/">Home</a>
-          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./Cards.jsx">Songs</a>
+          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./Songs">Songs</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/albums">Albums</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/playlists">Playlists</a>
         </div>

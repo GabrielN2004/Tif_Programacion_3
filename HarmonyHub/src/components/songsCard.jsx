@@ -1,5 +1,4 @@
 import 'bulma/css/bulma.min.css';
-import {SongsPage} from './SongsPage.jsx'
 export function SongsCard({ songTitle, artistName, albumCover, onAddToPlaylists }) {
     return (
         <div className="card" style={{ maxWidth: '600px', margin: '20px auto' }}>
