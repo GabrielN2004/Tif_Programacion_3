@@ -1,13 +1,13 @@
-import { useState} from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
+function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-export default function Login(){
-    const [username, setUsername]=useState("");
-    const[password, setPassword]= useState("");
-    const[isError, setIsError]= useState(false);
-    const[isLoading, setIsLoading]= useState(false);
-    const{login} = useAuth("actions");
+    const { login } = useAuth("actions");
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -37,6 +37,12 @@ export default function Login(){
                     setIsLoading(false);
                 });
         }
+    }
+
+    function handleChange(event) {
+        const { name, value } = event.target;
+        if (name === "username") setUsername(value);
+        if (name === "password") setPassword(value);
     }
 
     return (
@@ -94,3 +100,5 @@ export default function Login(){
         </section>
     );
 }
+
+export default Login;

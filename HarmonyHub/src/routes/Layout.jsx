@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { AuthProvider } from "../context/AuthContext";
 import { ThemeProvider } from "@teishi/bulma_theme";
 import { Navbar } from "../components/Navbar";
+import { AuthProvider } from "../contexts/AuthContext";
 
 export default function Layout() {
     return (

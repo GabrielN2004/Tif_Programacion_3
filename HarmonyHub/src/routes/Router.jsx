@@ -3,6 +3,8 @@ import  Home  from "../components/Home";
 import SongsPage from "../components/SongsPage";
 import Layout from "./Layout";
 import Login from "../components/Auth/Login";
+import ListaPlaylist from "../components/ListaPlaylist";
+import Profile from "../components/Profile";
 
 
 const Router = createBrowserRouter([
@@ -10,7 +12,7 @@ const Router = createBrowserRouter([
         element: <Layout/>,
         children: [
             {
-                path:"/",
+                path: "/",
                 element: <Home />,
             },
             {
@@ -19,13 +21,17 @@ const Router = createBrowserRouter([
             },
             {
                 path:"/playlists",
-                element: <ListaPlaylis/>
+                element: <ListaPlaylist/>
             }
         ],
     },
     {
         path:"/login",
         element: <Login/>
+    },
+    {
+        path:"/profile",
+        element : <Profile/>
     }
 ]);
 export {Router}
