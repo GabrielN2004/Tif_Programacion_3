@@ -39,12 +39,6 @@ export default function Login(){
         }
     }
 
-    function handleChange(event) {
-        const { name, value } = event.target;
-        if (name === "username") setUsername(value);
-        if (name === "password") setPassword(value);
-    }
-
     return (
         <section className="section">
             <div className="columns is-centered">

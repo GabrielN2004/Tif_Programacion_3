@@ -64,4 +64,3 @@ function useAuth(type) {
 }
 
 export { AuthContext, AuthProvider, useAuth };
-
