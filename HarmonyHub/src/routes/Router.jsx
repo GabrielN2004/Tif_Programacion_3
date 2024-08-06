@@ -1,19 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
-import  Home  from "../components/Home";
-import SongsPage from "../components/SongsPage";
-import Layout from "./Layout";
+import Home from "../components/Home";
 import Login from "../components/Auth/Login";
+import Layout from "./Layout";
+import ProtectedRoute from "./ProtectedRoute";
+import SongsPage from "../components/SongsPage";
 import ListaPlaylist from "../components/ListaPlaylist";
 import Profile from "../components/Profile";
 
-
 const Router = createBrowserRouter([
     {
-        element: <Layout/>,
+        element: <Layout />,
         children: [
             {
                 path: "/",
                 element: <Home />,
+            },
+            {
+                path: "/login",
+                element: <Login />,
             },
             {
                 path:"/songs",
@@ -22,16 +26,21 @@ const Router = createBrowserRouter([
             {
                 path:"/playlists",
                 element: <ListaPlaylist/>
-            }
+            },
+            {
+                path:"/profile",
+                element: (
+                    <ProtectedRoute>
+                        <Profile/>
+                    </ProtectedRoute>
+                ),
+            },
         ],
     },
     {
-        path:"/login",
-        element: <Login/>
+        path: "*",
+        element: <h1>Not Found</h1>,
     },
-    {
-        path:"/profile",
-        element : <Profile/>
-    }
 ]);
-export {Router}
+
+export { Router };
