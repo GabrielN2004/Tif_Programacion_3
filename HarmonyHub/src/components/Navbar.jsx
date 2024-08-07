@@ -32,6 +32,9 @@ export function Navbar() {
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./Songs">Songs</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/albums">Albums</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/playlists">Playlists</a>
+          {/* Nuevo enlace de Artistas */}
+          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artistas</a>
+
         </div>
 
         <div className="navbar-end">

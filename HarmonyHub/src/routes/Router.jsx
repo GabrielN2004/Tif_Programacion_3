@@ -6,6 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import SongsPage from "../components/SongsPage";
 import ListaPlaylist from "../components/ListaPlaylist";
 import Profile from "../components/Profile";
+import ArtistsPage from "../components/ArtistsPage"; // Importa el componente de Artistas
 
 const Router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const Router = createBrowserRouter([
             {
                 path:"/playlists",
                 element: <ListaPlaylist/>
+            },
+            {
+                path:"/artists",// nueva ruta para artistas
+                element: <ArtistsPage/> //componente que renderiza la pagina de artistas <ArtistsPage />
             },
             {
                 path:"/profile",
