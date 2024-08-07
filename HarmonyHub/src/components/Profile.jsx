@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../contexts/AuthContext.jsx"
 import useFetch from "../hooks/useFetch.jsx";
 import ProfileImageModal from "./ProfileImageModal.jsx";
-import { Navbar } from "./Navbar.jsx";
+import  Navbar  from "./Navbar.jsx";
 
 function Profile() {
     const { token } = useAuth("state");

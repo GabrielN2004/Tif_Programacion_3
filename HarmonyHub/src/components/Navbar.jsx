@@ -3,7 +3,7 @@ import './styles/Navbar.css';
 import 'bulma/css/bulma.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-export function Navbar() {
+export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
