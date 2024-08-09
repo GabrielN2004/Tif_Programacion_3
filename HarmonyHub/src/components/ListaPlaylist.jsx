@@ -1,10 +1,9 @@
 import React, { useRef, useEffect, useState } from "react"
 import 'bulma/css/bulma.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import { Navbar } from "./Navbar";
-import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
-import { useAuth } from "../contexts/AuthContext"
+import  Navbar  from "./Navbar";
 import PlaylistCard from "./PlaylistCard";
+import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
 
 export default function ListaPlaylist() {
     const [page, setPage]= useState(1);

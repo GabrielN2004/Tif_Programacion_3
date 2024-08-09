@@ -3,7 +3,7 @@ import './styles/Navbar.css';
 import 'bulma/css/bulma.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-export function Navbar() {
+export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -29,12 +29,9 @@ export function Navbar() {
       <div className="navbar-menu">
         <div className="navbar-start">
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/">Home</a>
-          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./Songs">Songs</a>
+          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./songs">Songs</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/albums">Albums</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/playlists">Playlists</a>
-          {/* Nuevo enlace de Artistas */}
-          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artistas</a>
-
         </div>
 
         <div className="navbar-end">
