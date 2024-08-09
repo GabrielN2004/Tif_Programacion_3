@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
-import Playlist from "./Playlist"
+import React, { useRef, useEffect, useState } from "react"
+import 'bulma/css/bulma.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import { Navbar } from "./Navbar";
+import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
+import { useAuth } from "../contexts/AuthContext"
+import PlaylistCard from "./PlaylistCard";
 
 export default function ListaPlaylist() {
     const [page, setPage]= useState(1);
@@ -9,23 +12,25 @@ export default function ListaPlaylist() {
     const [playlists, setPlaylists]= useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [isError , setIsError] = useState(false)
+    const [isOpen,setIsOpen] = useState(false)
+    const [filters, setFilters]= useState({})
 
+    const {user__id} = useAuth("state");
+    const observerRef = useRef();
+    const lastplaylistElementRef = useRef();
     const doFetch = async () =>{
         setIsLoading(true);
+        let query = new URLSearchParams({page:page, page_size:5, ordering:`-created_at`, ...filters,}).toString();
         fetch(
-            `${
-                import.meta.env.VITE_API_BASE_URL
-            }harmonyhub/playlists/?page=${page}&page_size=5`
+            `${import.meta.env.VITE_API_BASE_URL}harmonyhub/playlists/?${query}`,
+            {}
         )
-            .then((response)=>{
-                if(!response.ok){
-                    throw new Error ("No se cargaron las playlists");
-                }
-                return response.json();
-            })
+            .then((response)=> response.json())
             .then ((data)=>{
+                if(data.results){
                 setPlaylists((prevPlaylists) =>[...prevPlaylists, ...data.results]);
-                setNextURL(data.next);       
+                setNextURL(data.next);  
+            }     
             })
             .catch(() => {
                 setIsError(true);
@@ -41,40 +46,90 @@ export default function ListaPlaylist() {
     }
     useEffect(() => {
         doFetch();
-    }, [page]);
+    }, [page,filters]);
+
+    useEffect(()=>{
+        if(isLoading)return;
+        if(observerRef.current){
+            observerRef.current.disconnect();
+        }
+        observerRef.current= new IntersectionObserver((cards)=>{
+                if(cards[0].isIntersecting && nextURL){
+                    setPage((prevPage)=>prevPage +1);
+                }
+            });
+            if(lastplaylistElementRef.current){
+                observerRef.current.observer(lastplaylistElementRef.current);
+            }
+    }, [isLoading, nextURL]);
+    function handleSearch(event){
+        event.preventDefault();
+        const searchForm= new FormData(event.target);
+        const newfilters= {};
+        searchForm.forEach((value, key)=>{
+            if(value){
+                newfilters[key]= value;
+            }
+        });
+        setFilters(newfilters);
+        setPlaylists([]);
+        setPage(1);
+    }
+    if(isError)return <p>Error al cargar las Playlists</p>;
+    if(!playlists.length && !isLoading)return <p>No hay playlist disponible</p>;    
 
     return(
         <>
         <Navbar/>
         <div>
             <div className="my-5">
-                <h1 className="title is-4" style={{marginLeft:'15px'}}>PlayLists</h1>
-                <div className="dropdown is-active">
-                    <div className="dropdown-trigger">
-                        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                            <span>Menu</span>
-                            <span className="icon is-small">
-                                <i className="fas fa-angle-down" aria-hidden="true"></i>
-                            </span>
-                        </button>
-                    </div>
-                    <div className="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div className="dropdown-content">
-                            <a href="#" className="dropdown-item" >Agregar PlayList</a>
-                        </div> 
-                    </div>
-
-                </div>
-                <ul>
-                    {playlists.map((playlist) => (
-                        <div key={playlist.id} className="column is-two-thirds">
-                            <Playlist playlist={playlist} />
+                <h1 className="title is-4" style={{marginLeft:"20px"}}>PlayLists</h1>
+                <form className="box" onSubmit={handleSearch}>
+                    <div className="field">
+                        <label className="label">Titulo</label>
+                        <div className="control">
+                            <input className="input" type="text" name="name"  />
                         </div>
-                    ))}
+                    </div>
+                    <div className="field">
+                        <button className="button is-link" type="submit"><i className="fas fa-search"></i></button>
+                    </div>
+                </form>
+                    <div style={{marginLeft:"50%"}}>
+                    <span style={{margin:"15px"}}>
+                        <button className="button is-primary" onClick={()=>setIsOpen(true)}>Agregar una nueva Playlist</button>
+                    </span>
+                    <span style={{margin:"15px"}}>
+                        <button className="button is-primary">Modificar</button>
+                    </span>
+                    <span style={{margin:"15px"}}>
+                        <button className="button is-primary">Eliminar</button>
+                    </span>
+            </div>
+                <ul>
+                    {playlists.map((playlist,index) => {
+                        if(playlist.lenght === index +1){
+                            return(<div key={playlist.id} ref= {lastplaylistElementRef} className="column is-two-thirds">
+                                <PlaylistCard playlists={playlist} user_ID={user__id}/>
+                            </div>);
+                        }else{
+                            return (
+                                <div key={playlist.id} className="column is-two-thirds">
+                                    <PlaylistCard playlists={playlist} user_ID={user__id}/>
+                                </div>
+                            );
+                        }
+                        })}
                 </ul>
                 {isLoading && <p>Cargando Mas...</p>}
                 {nextURL && !isLoading &&(
                     <button className="button is-link" onClick={handleLoadMore}>Cargar Más</button>
+                )};
+                {isOpen &&(
+                    <PlaylistCrear
+                    isOpenn = {isOpen}
+                    onClose ={()=>setIsOpen(false)}
+                    />
                 )}
             </div>
         </div>
