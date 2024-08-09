@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './Navbar'; // Asumiendo que Navbar es un componente común
+import { Navbar } from './Navbar'; 
 import './styles/ArtistsPage.css'; // Estilos específicos para esta página
 import { useAuth } from "../contexts/AuthContext";
 
 // Datos simulados para los artistas
 const fetchArtists = async () => {
   // Esta función simula la obtención de datos desde una API.
-  // Reemplázalo con una llamada real a tu backend.
+  // Reemplázar con una llamada real a backend.
   return [
     {
       id: 1,
