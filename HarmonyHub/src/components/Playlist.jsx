@@ -2,16 +2,18 @@ import 'bulma/css/bulma.min.css';
 
 export default function Playlist({playlist}){
     return(
-        <>
-        <div className="card">
-                <header className="card-header">
-                    <h1 className="card-header-title">{playlist.title}</h1>
-                    <div className="control">
-                        <button className="button is-primary">Ver canciones</button>
+        <div className="card has-background-dark columns my-1 max-2">
+            <div className="card-content">
+                <div className="media">
+                    <div className="media-content">
+                        <p className="title is-4 has-text-white">{playlist.name}</p>
                     </div>
-                </header>
+                    <div className='media-content'>
+                        <p className="subtitle is-5 has-text-white">{playlist.description}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        </>
     )
 }
 

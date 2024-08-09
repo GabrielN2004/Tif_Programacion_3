@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Playlist from "./Playlist"
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import { Navbar } from "./Navbar";
+import  Navbar  from "./Navbar";
 
 export default function ListaPlaylist() {
     const [page, setPage]= useState(1);
