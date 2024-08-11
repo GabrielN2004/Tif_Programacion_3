@@ -49,7 +49,7 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
                 }
             });
             if(lastplaylistElementRef.current){
-                observerRef.current.observer(lastplaylistElementRef.current);
+                observerRef.current.observe(lastplaylistElementRef.current);
             }
     }, [isLoading, nextURL]);
 
@@ -72,8 +72,7 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
             method:"DELETE",
             headers :{
                 Authorization : `Token ${token}`
-            }
-            
+            }    
         })
         .then((response)=>{
             if (response.ok){
@@ -87,42 +86,44 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
             setIsError(true);
         })
     }
-    console.log(isOpen_2)
     return (
         <div className={`modal ${isOpen_2 ? "is-active" : ""}`}>
-        <div className="modal-background" onClick={onClose}></div>
-        <div className="modal-card">
-            <header className="modal-card-head">
-            <button className="delete" aria-label="close" onClick={onClose}></button>
-                <form className="box" onClick={handleSearch}>
-                    <div className="field">
-                        <label className="label">Titulo</label>
-                        <div className="control">
-                            <input className="input" type="text" name="name" />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <button className="button is-link" type="submit"><i className="fas fa-search"></i></button>
-                    </div>
-                </form>
-            </header>
-            <div>
-                <ul>
-                    {playlists.map((playlist, index)=>{
-                        const isLastElement = playlists.length === index +1;
-                        return(
-                            <div key={playlist.id} ref={isLastElement ? lastplaylistElementRef : null} className="column is-two-thirds">
-                                <PlaylistCard playlist={playlist} user_ID={user__id}/>
-                                <button className="button is-danger mt-2" onClick={()=>handleDelete(playlist.id)}>Eliminar</button>
+            <div className="modal-background" onClick={onClose}></div>
+            <div className="modal-card">
+                <header className="modal-card-head">
+                    <p className="modal-card-title">Eliminar Playlist</p>
+                    <button className="delete" aria-label="close" onClick={onClose}></button>
+                </header>
+                <section className="modal-card-body">
+                    <form className="box" onSubmit={handleSearch}>
+                        <div className="field">
+                            <label className="label">Titulo</label>
+                            <div className="control">
+                                <input className="input" type="text" name="name"  />
                             </div>
-                        );
-                    })}
-                    
-                </ul>
+                        </div>
+                        <div className="field">
+                            <button className="button is-link" type="submit"><i className="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                    <ul>
+                        {playlists.map((playlist, index)=>{
+                            const isLastElement = playlists.length === index +1;
+                            return(
+                                <div key={playlist.id} ref={isLastElement ? lastplaylistElementRef : null} className="column is-two-thirds">
+                                    <PlaylistCard playlist={playlist} user_ID={user__id}/>
+                                    <button className="button is-danger mt-2" onClick={()=>handleDelete(playlist.id)}>Eliminar</button>
+                                </div>
+                            );
+                        })}
+                    </ul>
+                    {isLoading &&<p>Cargando mas Playlist</p>}
+                </section>
+                <footer className="modal-card-foot">
+                    <button className="button" onClick={onClose}>Cerrar</button>
+                </footer>
             </div>
         </div>
-    </div>
-    )
-    
+    );    
 }
 

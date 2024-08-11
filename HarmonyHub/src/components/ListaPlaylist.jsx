@@ -112,12 +112,12 @@ export default function ListaPlaylist() {
                     {playlists.map((playlist,index) => {
                         if(playlist.lenght === index +1){
                             return(<div key={playlist.id} ref= {lastplaylistElementRef} className="column is-two-thirds">
-                                <PlaylistCard playlists={playlist} user_ID={user__id}/>
+                                <PlaylistCard playlist={playlist} user_ID={user__id}/>
                             </div>);
                         }else{
                             return (
                                 <div key={playlist.id} className="column is-two-thirds">
-                                    <PlaylistCard playlists={playlist} user_ID={user__id}/>
+                                    <PlaylistCard playlist={playlist} user_ID={user__id}/>
                                 </div>
                             );
                         }
