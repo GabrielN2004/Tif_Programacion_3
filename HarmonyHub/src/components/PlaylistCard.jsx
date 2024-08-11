@@ -1,5 +1,4 @@
 import 'bulma/css/bulma.min.css'
-
 export default function PlaylistCard({playlist, user_ID}){
     return(
         <div className="card has-background-dark columns my-1 max-2">

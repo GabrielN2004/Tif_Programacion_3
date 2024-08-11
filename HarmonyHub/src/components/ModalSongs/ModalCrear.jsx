@@ -5,10 +5,20 @@ import { useState } from 'react';
 export default function CrearSongs({ isOpenN, onClose }) {
     const { token } = useAuth("state");
     const [songData, setSongData] = useState({ title: "", year: "", album: "" });
+    const [songFile, setSongFile] = useState(null);
+    const [coverImage, setCoverImage] = useState(null); // Nuevo estado para la imagen
     const [submitting, setSubmitting] = useState(false);
 
     const handleInputChange = (event) => {
         setSongData({ ...songData, [event.target.name]: event.target.value });
+    };
+
+    const handleFileChange = (event) => {
+        if (event.target.name === "song_file") {
+            setSongFile(event.target.files[0]);
+        } else if (event.target.name === "cover_image") {
+            setCoverImage(event.target.files[0]); // Actualiza el estado de la imagen
+        }
     };
 
     const handleSongSubmit = (event) => {
@@ -19,6 +29,12 @@ export default function CrearSongs({ isOpenN, onClose }) {
             newForm.append("title", songData.title);
             newForm.append("year", songData.year);
             newForm.append("album", songData.album);
+            if (songFile) {
+                newForm.append("song_file", songFile);
+            }
+            if (coverImage) {
+                newForm.append("cover", coverImage); // Agrega la imagen al formulario
+            }
 
             fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {
                 method: "POST",
@@ -72,7 +88,19 @@ export default function CrearSongs({ isOpenN, onClose }) {
                         <div className="field">
                             <label className="label">Álbum</label>
                             <div className="control">
-                                <input className="input is-rounded is-primary" type="number" name="album" value={songData.album || null} onChange={handleInputChange} />
+                                <input className="input is-rounded is-primary" type="text" name="album" value={songData.album || ""} onChange={handleInputChange} />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label className="label">Archivo de Canción</label>
+                            <div className="control">
+                                <input className="input is-rounded is-primary" type="file" name="song_file" accept="audio/mp3" onChange={handleFileChange} />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label className="label">Portada</label>
+                            <div className="control">
+                                <input className="input is-rounded is-primary" type="file" name="cover_image" accept="image/*" onChange={handleFileChange} />
                             </div>
                         </div>
                         <footer className="modal-card-foot">
