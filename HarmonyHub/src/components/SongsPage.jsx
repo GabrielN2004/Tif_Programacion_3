@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './Navbar';
 import SongsCard from './SongsCard';
 import { useAuth } from '../contexts/AuthContext';
-import DeleteSongModal from './ModalSongs/ModalDelete';
 import CrearSongs from './ModalSongs/ModalCrear';
+import DeleteSongModal from './ModalSongs/ModalDelete';
+
 
 export default function SongsPage() {
     const [page, setPage] = useState(1);
@@ -15,6 +16,7 @@ export default function SongsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedSong, setSelectedSong] = useState(null);
     const [isModalOpen_2, setIsModalOpen_2] = useState(false);
+    const [isModificarOpen, setIsModificarOpen] = useState(false);
 
     const { user__id } = useAuth("state");
 
@@ -109,6 +111,11 @@ export default function SongsPage() {
                         Crear
                     </span>
                 </button>
+                <button className="card-footer-item button is-danger" onClick={() => setIsModalOpen(true)}>
+                    <span>
+                        Eliminar
+                    </span>
+                </button>
                 </header>
                 <form className="box" onSubmit={handleSearch}>
                     <div className="field">
@@ -175,58 +182,16 @@ export default function SongsPage() {
                 </ul>
                 {isLoading && <p>Cargando más canciones...</p>}
             </div>
-            {isModalOpen && (
-                <DeleteSongModal onClose={closeModal}>
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            modifySong({
-                                ...selectedSong,
-                                title: e.target.title.value,
-                                artists: e.target.artists.value,
-                                // otros campos
-                            });
-                        }}
-                    >
-                        <div className="field">
-                            <label className="label">Título:</label>
-                            <div className="control">
-                                <input
-                                    className="input"
-                                    type="text"
-                                    name="title"
-                                    defaultValue={selectedSong.title}
-                                />
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label className="label">Artista:</label>
-                            <div className="control">
-                                <input
-                                    className="input"
-                                    type="number"
-                                    name="artists"
-                                    defaultValue={selectedSong.artists}
-                                />
-                            </div>
-                        </div>
-                        {/* Agrega más campos según sea necesario */}
-                        <div className="field is-grouped">
-                            <div className="control">
-                                <button className="button is-success" type="submit">Guardar cambios</button>
-                            </div>
-                            <div className="control">
-                                <button className="button" onClick={closeModal}>Cancelar</button>
-                            </div>
-                        </div>
-                    </form>
-                </DeleteSongModal>
+            {isModalOpen &&(
+                <DeleteSongModal
+                isOpen={isModalOpen}
+                onClose={()=> setIsModalOpen(false)}
+                />
             )}
             {isModalOpen_2 &&(
                 <CrearSongs
                 isOpenN={isModalOpen_2}
                 onClose={()=> setIsModalOpen_2(false)}
-
                 />
             )}
         </div>

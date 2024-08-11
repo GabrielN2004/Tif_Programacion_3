@@ -1,20 +1,11 @@
 import 'bulma/css/bulma.min.css';
-import { useState } from 'react';
-import useFetch from '../hooks/useFetch';
 import imagen from '../assets/descarga.jpg'
-import DeleteSongModal from './ModalSongs/ModalDelete';
+import { useState } from 'react';
+
 
 export default function SongsCard({ song, user_ID }) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const { data, isLoading, isError, doFetch } = useFetch();
-
     return (
         <div className={`card has-background-dark columns my-1 mx-2`}>
-            <div className="card-image">
-                <figure className="image is-4by3">
-                    <img src={song.cover_image ||imagen } alt="Cover Image" />
-                </figure>
-            </div>
             <div className="card-content">
                 <div className="media">
                     <div className="media-content">
@@ -35,22 +26,9 @@ export default function SongsCard({ song, user_ID }) {
                     <span className="icon">
                         <i className="fas fa-info-circle"></i>
                     </span>
-                    <span>Info</span>
-                </button>
-                <button className="card-footer-item button is-danger" onClick={() => setIsModalOpen(true)}>
-                    <span>
-                        Eliminar
-                    </span>
+                    <span>Info</span> 
                 </button>
             </div>
-            {isModalOpen && (
-                <DeleteSongModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    song_id={song.id}
-                    onDelete={{ data, isLoading, isError, doFetch }}
-                />
-            )};
         </div>
     );
 }

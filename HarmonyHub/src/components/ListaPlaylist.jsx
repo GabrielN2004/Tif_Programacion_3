@@ -4,6 +4,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import  Navbar  from "./Navbar";
 import PlaylistCard from "./PlaylistCard";
 import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function ListaPlaylist() {
     const [page, setPage]= useState(1);
