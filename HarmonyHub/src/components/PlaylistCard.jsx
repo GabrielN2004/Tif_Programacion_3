@@ -8,10 +8,7 @@ export default function PlaylistCard({playlist, user_ID}){
                     <div className="media-content">
                         <p className="title is-4  is-spaced has-text-white" >{playlist.name}</p>
                         <p className="subtitle is-5 has-text-white ">{playlist.description}</p>
-<<<<<<< HEAD
-=======
                         <p className="subtitle is-5 has-text-white ">{playlist.public}</p>
->>>>>>> 4f071ba1b5de3a689c5667f966cc358535223471
                     </div>
                 </div>
             </div>

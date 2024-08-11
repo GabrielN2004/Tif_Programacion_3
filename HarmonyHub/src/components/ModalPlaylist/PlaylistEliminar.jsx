@@ -84,11 +84,7 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
         })
     }
     return (
-<<<<<<< HEAD
-        <div className={`modal ${isOpen_2 ? 'is-active' : ''}`}>
-=======
         <div className={`modal ${isOpen_2 ? "is-active" : ""}`}>
->>>>>>> 4f071ba1b5de3a689c5667f966cc358535223471
             <div className="modal-background" onClick={onClose}></div>
             <div className="modal-card">
                 <header className="modal-card-head">
@@ -107,11 +103,7 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
                             <button className="button is-link" type="submit"><i className="fas fa-search"></i></button>
                         </div>
                     </form>
-<<<<<<< HEAD
-                    <ul className="mt-4">
-=======
                     <ul>
->>>>>>> 4f071ba1b5de3a689c5667f966cc358535223471
                         {playlists.map((playlist, index)=>{
                             const isLastElement = playlists.length === index +1;
                             return(
@@ -122,22 +114,13 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
                             );
                         })}
                     </ul>
-<<<<<<< HEAD
-                    {isLoading && <p>Cargando mas Playlist</p>}
-=======
                     {isLoading &&<p>Cargando mas Playlist</p>}
->>>>>>> 4f071ba1b5de3a689c5667f966cc358535223471
                 </section>
                 <footer className="modal-card-foot">
                     <button className="button" onClick={onClose}>Cerrar</button>
                 </footer>
             </div>
         </div>
-<<<<<<< HEAD
-    )
-    
-=======
     );    
->>>>>>> 4f071ba1b5de3a689c5667f966cc358535223471
 }
 
