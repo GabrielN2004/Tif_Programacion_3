@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar } from './Navbar'; 
+import Navbar from './Navbar'; 
 import './styles/ArtistsPage.css'; // Estilos específicos para esta página
 import { useAuth } from "../contexts/AuthContext";
 
