@@ -6,6 +6,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import SongsPage from "../components/SongsPage";
 import ListaPlaylist from "../components/ListaPlaylist";
 import Profile from "../components/Profile";
+import ArtistsPage from "../components/ArtistsPage";
 import AlbumsPage from "../components/Albums";
 
 const Router = createBrowserRouter([
@@ -22,15 +23,19 @@ const Router = createBrowserRouter([
             },
             {
                 path:"/songs",
-                element: <SongsPage/>
+                element: <SongsPage/>,
             },
             {
                 path:"/playlists",
-                element: <ListaPlaylist/>
+                element: <ListaPlaylist/>,
+            },
+            {
+                path:"/artists",
+                element: <ArtistsPage/>,//componente que renderiza la pagina de artistas
             },
             {
                 path:"/albums",
-                element: <AlbumsPage/>
+                element:<AlbumsPage/>
             },
             {
                 path:"/profile",

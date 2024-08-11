@@ -4,6 +4,7 @@ import SongsCard from './SongsCard';
 import { useAuth } from '../contexts/AuthContext';
 import CrearSongs from './ModalSongs/ModalCrear';
 import DeleteSongModal from './ModalSongs/ModalDelete';
+import ModifySong from './ModalSongs/ModalModificar';
 
 
 export default function SongsPage() {
@@ -116,6 +117,11 @@ export default function SongsPage() {
                         Eliminar
                     </span>
                 </button>
+                <button className="card-footer-item button is-danger" onClick={() => setIsModificarOpen(true)}>
+                    <span>
+                        Modificar
+                    </span>
+                </button>
                 </header>
                 <form className="box" onSubmit={handleSearch}>
                     <div className="field">
@@ -192,6 +198,12 @@ export default function SongsPage() {
                 <CrearSongs
                 isOpenN={isModalOpen_2}
                 onClose={()=> setIsModalOpen_2(false)}
+                />
+            )}
+            {isModificarOpen &&(
+                <ModifySong
+                isModificarOpen={isModificarOpen}
+                OnCloseModificar={()=> setIsModificarOpen(false)}
                 />
             )}
         </div>

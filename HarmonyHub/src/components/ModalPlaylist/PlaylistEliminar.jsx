@@ -1,50 +1,129 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import PlaylistCard from "../PlaylistCard";
+import'bulma/css/bulma.min.css'
 
-export default function EliminarPlaylist({isOpen, onClose, playlist_id, onDelete}){
-    const {token}= useAuth("state")
+export default function PlaylistEliminar({isOpen_2, onClose}){
+    const {user__id} = useAuth("state")
+    const {token} = useAuth("state")
+    const [nextURL, setNextURL]= useState(null);
+    const[filters, setFilters] = useState({})
+    const [isLoading, setIsLoading] = useState(false)
+    const [playlists, setPlaylists] = useState([])
+    const [page, setPage]= useState(1)
+    const [isError, setIsError]= useState(false)
+    const observerRef = useRef();
+    const lastplaylistElementRef = useRef();
 
-    const handleEliminarPlaylist = (event)=>{
-        event.preventDefault();
-
-        onDelete.doFetch(
-            `${import.meta.env.VITE_API_BASE_URL}/harmonyhub/playlists/${playlist_id}`,
-            {
-                method: "DELETE",     //OPCIONES
-                headers:{
-                    Authorization: `Token ${token}`,
-                },
-                
-            }
-        );
+    const doFetch = async () =>{
+        setIsLoading(true);
+        let query = new URLSearchParams({page:page, page_size:1, ordering:`-created_at`, ...filters,}).toString();
+        fetch(
+            `${import.meta.env.VITE_API_BASE_URL}harmonyhub/playlists/?${query}`)
+            .then((response)=> response.json())
+            .then ((data)=>{
+                if(data.results){
+                setPlaylists((prevPlaylists) =>[...prevPlaylists, ...data.results]);
+                setNextURL(data.next);  
+            }     
+            })
+            .catch(() => {
+                setIsError(true);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
     };
+    useEffect(() => {
+        doFetch();
+    }, [page,filters]);
     useEffect(()=>{
-        if(onDelete.data){
-            onClose();
+        if(isLoading)return;
+        if(observerRef.current){
+            observerRef.current.disconnect();
         }
-    }, [onDelete.data]);
-        if (!isOpen)
-            return null;
-
-        return (
-            <div className={`modal ${isOpen ? "is-active" : ""}`}>
-                <div className="modal-background" onClick={onClose}></div>
-                <div className="modal-card">
-                    <header className="modal-card-head">
-                        <p className="modal-card-title">Eliminar Playlist</p>
-                        <button className="delete" aria-label="close" onClick={onClose}></button>
-                    </header>
-                    <section className="modal-card-body">
-                        <form onSubmit={handleEliminarPlaylist}>
-                            <div className="field">
-                                <p className="¿Estas seguro que desea eliminar la Playlist?"></p>
+        observerRef.current= new IntersectionObserver((cards)=>{
+                if(cards[0].isIntersecting && nextURL){
+                    setPage((prevPage)=>prevPage +1);
+                }
+            });
+            if(lastplaylistElementRef.current){
+                observerRef.current.observe(lastplaylistElementRef.current);
+            }
+    }, [isLoading, nextURL]);
+    function handleSearch(event){
+        event.preventDefault();
+        const searchForm= new FormData(event.target);
+        const newfilters= {};
+        searchForm.forEach((value, key)=>{
+            if(value){
+                newfilters[key]= value;
+            }
+        });
+        setFilters(newfilters);
+        setPlaylists([]);
+        setPage(1);
+    }
+    const handleDelete = (playlist_id) =>{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}harmonyhub/playlists/${playlist_id}`,{
+            method:"DELETE",
+            headers :{
+                Authorization : `Token ${token}`
+            }
+            
+        })
+        .then((response)=>{
+            if (response.ok){
+                alert("Se elimino exitosamente la Playlist")
+                setPlaylists((prevPlaylists)=> prevPlaylists.filter((playlist)=> playlist.id !== playlist_id))
+            } else{
+                setIsError(true);
+            }
+        })
+        .catch(()=>{
+            setIsError(true);
+        })
+    }
+    console.log(isOpen_2)
+    return (
+        <div className={`modal ${isOpen_2 ? 'is-active' : ''}`}>
+            <div className="modal-background" onClick={onClose}></div>
+            <div className="modal-card">
+                <header className="modal-card-head">
+                    <p className="modal-card-title">Eliminar Playlist</p>
+                    <button className="delete" aria-label="close" onClick={onClose}></button>
+                </header>
+                <section className="modal-card-body">
+                    <form className="box" onSubmit={handleSearch}>
+                        <div className="field">
+                            <label className="label">Titulo</label>
+                            <div className="control">
+                                <input className="input" type="text" name="name"  />
                             </div>
-                            <button className="button is-danger" type="submit" disabled={onDelete.isLoading}>
-                                {onDelete.isLoading ? "Eliminando...":"Confirmar"}
-                            </button>
-                        </form>
-                    </section>
-                </div>
+                        </div>
+                        <div className="field">
+                            <button className="button is-link" type="submit"><i className="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                    <ul className="mt-4">
+                        {playlists.map((playlist, index)=>{
+                            const isLastElement = playlists.length === index +1;
+                            return(
+                                <div key={playlist.id} ref={isLastElement ? lastplaylistElementRef : null} className="column is-two-thirds">
+                                    <PlaylistCard playlist={playlist} user_ID={user__id}/>
+                                    <button className="button is-danger mt-2" onClick={()=>handleDelete(playlist.id)}>Eliminar</button>
+                                </div>
+                            );
+                        })}
+                    </ul>
+                    {isLoading && <p>Cargando mas Playlist</p>}
+                </section>
+                <footer className="modal-card-foot">
+                    <button className="button" onClick={onClose}>Cerrar</button>
+                </footer>
             </div>
-        );
+        </div>
+    )
+    
 }
+
