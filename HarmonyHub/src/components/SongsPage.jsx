@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './Navbar';
 import SongsCard from './SongsCard';
 import { useAuth } from '../contexts/AuthContext';
-import DeleteSongModal from './ModalSongs/ModalDelete';
 import CrearSongs from './ModalSongs/ModalCrear';
+import DeleteSongModal from './ModalSongs/ModalDelete';
+import ModifySong from './ModalSongs/ModalModificar';
+
+
 
 export default function SongsPage() {
     const [page, setPage] = useState(1);
@@ -15,6 +18,7 @@ export default function SongsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedSong, setSelectedSong] = useState(null);
     const [isModalOpen_2, setIsModalOpen_2] = useState(false);
+    const [isModificarOpen, setIsModificarOpen] = useState(false);
 
     const { user__id } = useAuth("state");
 
@@ -100,135 +104,79 @@ export default function SongsPage() {
 
     return (
         <div>
-            <Navbar />
-            <div className="my-5">
-                <header>
-                <h2 className="title">Lista de Canciones</h2>
-                <button className="card-footer-item button is-danger" onClick={() => setIsModalOpen_2(true)}>
-                    <span>
-                        Crear
-                    </span>
+    <Navbar />
+    <div className="my-5">
+        <header>
+            <h2 className="title">Lista de Canciones</h2>
+            <div className="buttons is-flex" style={{alignContent:"center", marginLeft:"38.5%"}}>
+                <button className="button is-primary" onClick={() => setIsModalOpen_2(true)} style={{margin:"10px"}}>
+                    <span>Crear</span>
                 </button>
-                </header>
-                <form className="box" onSubmit={handleSearch}>
-                    <div className="field">
-                        <label className="label">Título:</label>
-                        <div className="control">
-                            <input className="input" type="text" name="title" />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="label">Artista:</label>
-                        <div className="control">
-                            <input className="input" type="number" name="artists" />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="label">Fecha de inicio:</label>
-                        <div className="control">
-                            <input
-                                className="input"
-                                type="datetime-local"
-                                name="created_at_min"
-                            />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <label className="label">Fecha de fin:</label>
-                        <div className="control">
-                            <input
-                                className="input"
-                                type="datetime-local"
-                                name="created_at_max"
-                            />
-                        </div>
-                    </div>
-                    <div className="field">
-                        <button className="button is-primary" type="submit">
-                            Buscar
-                        </button>
-                    </div>
-                </form>
-                <ul>
-                    {songs.map((song, index) => {
-                        if (songs.length === index + 1) {
-                            return (
-                                <div
-                                    key={song.id}
-                                    ref={lastSongElementRef}
-                                    className="column is-two-thirds"
-                                >
-                                    <SongsCard song={song} user_ID={user__id} />
-                                </div>
-                            );
-                        } else {
-                            return (
-                                <div
-                                    key={song.id}
-                                    className="column is-two-thirds"
-                                >
-                                    <SongsCard song={song} user_ID={user__id} />
-                                </div>
-                            );
-                        }
-                    })}
-                </ul>
-                {isLoading && <p>Cargando más canciones...</p>}
+                <button className="button is-danger" onClick={() => setIsModalOpen(true)} style={{margin:"10px"}}>
+                    <span>Eliminar</span>
+                </button>
+                <button className="button is-info" onClick={() => setIsModificarOpen(true)} style={{margin:"10px"}}>
+                    <span>Modificar</span>
+                </button>
             </div>
-            {isModalOpen && (
-                <DeleteSongModal onClose={closeModal}>
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault();
-                            modifySong({
-                                ...selectedSong,
-                                title: e.target.title.value,
-                                artists: e.target.artists.value,
-                                // otros campos
-                            });
-                        }}
-                    >
-                        <div className="field">
-                            <label className="label">Título:</label>
-                            <div className="control">
-                                <input
-                                    className="input"
-                                    type="text"
-                                    name="title"
-                                    defaultValue={selectedSong.title}
-                                />
-                            </div>
+        </header>
+        <form className="box" onSubmit={handleSearch}>
+            <div className="field">
+                <label className="label">Título:</label>
+                <div className="control">
+                    <input className="input" type="text" name="title" />
+                </div>
+            </div>
+            <div className="field">
+                <button className="button is-primary" type="submit">
+                    Buscar
+                </button>
+            </div>
+        </form>
+        <ul>
+            {songs.map((song, index) => {
+                if (songs.length === index + 1) {
+                    return (
+                        <div
+                            key={song.id}
+                            ref={lastSongElementRef}
+                            className="column is-two-thirds"
+                        >
+                            <SongsCard song={song} user_ID={user__id} />
                         </div>
-                        <div className="field">
-                            <label className="label">Artista:</label>
-                            <div className="control">
-                                <input
-                                    className="input"
-                                    type="number"
-                                    name="artists"
-                                    defaultValue={selectedSong.artists}
-                                />
-                            </div>
+                    );
+                } else {
+                    return (
+                        <div
+                            key={song.id}
+                            className="column is-two-thirds"
+                        >
+                            <SongsCard song={song} user_ID={user__id} />
                         </div>
-                        {/* Agrega más campos según sea necesario */}
-                        <div className="field is-grouped">
-                            <div className="control">
-                                <button className="button is-success" type="submit">Guardar cambios</button>
-                            </div>
-                            <div className="control">
-                                <button className="button" onClick={closeModal}>Cancelar</button>
-                            </div>
-                        </div>
-                    </form>
-                </DeleteSongModal>
-            )}
-            {isModalOpen_2 &&(
-                <CrearSongs
-                isOpenN={isModalOpen_2}
-                onClose={()=> setIsModalOpen_2(false)}
-
-                />
-            )}
-        </div>
+                    );
+                }
+            })}
+        </ul>
+        {isLoading && <p>Cargando más canciones...</p>}
+    </div>
+    {isModalOpen && (
+        <DeleteSongModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+        />
+    )}
+    {isModalOpen_2 && (
+        <CrearSongs
+            isOpenN={isModalOpen_2}
+            onClose={() => setIsModalOpen_2(false)}
+        />
+    )}
+    {isModificarOpen && (
+        <ModifySong
+            isModificarOpen={isModificarOpen}
+            OnCloseModificar={() => setIsModificarOpen(false)}
+        />
+    )}
+</div>
     );
 }

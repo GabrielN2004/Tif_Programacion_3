@@ -37,7 +37,6 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
     useEffect(() => {
         doFetch();
     }, [page,filters]);
-
     useEffect(()=>{
         if(isLoading)return;
         if(observerRef.current){
@@ -52,7 +51,6 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
                 observerRef.current.observe(lastplaylistElementRef.current);
             }
     }, [isLoading, nextURL]);
-
     function handleSearch(event){
         event.preventDefault();
         const searchForm= new FormData(event.target);
@@ -66,7 +64,6 @@ export default function PlaylistEliminar({isOpen_2, onClose}){
         setPlaylists([]);
         setPage(1);
     }
-
     const handleDelete = (playlist_id) =>{
         fetch(`${import.meta.env.VITE_API_BASE_URL}harmonyhub/playlists/${playlist_id}`,{
             method:"DELETE",

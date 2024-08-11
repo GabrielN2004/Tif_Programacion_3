@@ -6,6 +6,7 @@ import PlaylistCard from "./PlaylistCard";
 import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
 import { useAuth } from "../contexts/AuthContext";
 import PlaylistEliminar from "./ModalPlaylist/PlaylistEliminar";
+import PlaylistModificar from "./ModalPlaylist/PlaylistModificar";
 
 
 export default function ListaPlaylist() {
@@ -16,6 +17,7 @@ export default function ListaPlaylist() {
     const [isError , setIsError] = useState(false)
     const [isOpen,setIsOpen] = useState(false)
     const [isOpen_2, setIsOpen_2] = useState(false)
+    const [isOpenModificar, setIsOpenModificar] = useState(false)
     const [filters, setFilters]= useState({})
 
     const {user__id} = useAuth("state");
@@ -79,6 +81,7 @@ export default function ListaPlaylist() {
     }
     if(isError)return <p>Error al cargar las Playlists</p>;
     if(!playlists.length && !isLoading)return <p>No hay playlist disponible</p>;    
+    
 
     return(
         <>
@@ -102,7 +105,7 @@ export default function ListaPlaylist() {
                         <button className="button is-primary" onClick={()=>setIsOpen(true)}>Agregar una nueva Playlist</button>
                     </span>
                     <span style={{margin:"15px"}}>
-                        <button className="button is-primary">Modificar</button>
+                        <button className="button is-primary" onClick={()=>setIsOpenModificar(true)}>Modificar</button>
                     </span>
                     <span style={{margin:"15px"}}>
                         <button className="button is-primary" onClick={()=>setIsOpen_2(true)}>Eliminar</button>
@@ -137,6 +140,12 @@ export default function ListaPlaylist() {
                     <PlaylistEliminar
                     isOpen_2={isOpen_2}
                     onClose={()=>setIsOpen_2(false)}
+                    />
+                )}
+                {isOpenModificar &&(
+                    <PlaylistModificar
+                    isOpenModificar={isOpenModificar}
+                    onClose={()=>setIsOpenModificar(false)}
                     />
                 )}
                 
