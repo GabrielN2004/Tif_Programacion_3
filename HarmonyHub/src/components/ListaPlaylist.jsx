@@ -4,6 +4,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import  Navbar  from "./Navbar";
 import PlaylistCard from "./PlaylistCard";
 import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
+import { useAuth } from "../contexts/AuthContext";
+import PlaylistEliminar from "./ModalPlaylist/PlaylistEliminar";
+
 
 export default function ListaPlaylist() {
     const [page, setPage]= useState(1);
@@ -12,6 +15,7 @@ export default function ListaPlaylist() {
     const [isLoading, setIsLoading] = useState(false)
     const [isError , setIsError] = useState(false)
     const [isOpen,setIsOpen] = useState(false)
+    const [isOpen_2, setIsOpen_2] = useState(false)
     const [filters, setFilters]= useState({})
 
     const {user__id} = useAuth("state");
@@ -21,9 +25,7 @@ export default function ListaPlaylist() {
         setIsLoading(true);
         let query = new URLSearchParams({page:page, page_size:5, ordering:`-created_at`, ...filters,}).toString();
         fetch(
-            `${import.meta.env.VITE_API_BASE_URL}harmonyhub/playlists/?${query}`,
-            {}
-        )
+            `${import.meta.env.VITE_API_BASE_URL}harmonyhub/playlists/?${query}`)
             .then((response)=> response.json())
             .then ((data)=>{
                 if(data.results){
@@ -38,14 +40,15 @@ export default function ListaPlaylist() {
                 setIsLoading(false);
             })
     };
+    useEffect(() => {
+        doFetch();
+    }, [page,filters]);
+    
     function handleLoadMore() {
         if (nextURL){
             setPage((currentPage) => currentPage + 1);
         }
     }
-    useEffect(() => {
-        doFetch();
-    }, [page,filters]);
 
     useEffect(()=>{
         if(isLoading)return;
@@ -102,7 +105,7 @@ export default function ListaPlaylist() {
                         <button className="button is-primary">Modificar</button>
                     </span>
                     <span style={{margin:"15px"}}>
-                        <button className="button is-primary">Eliminar</button>
+                        <button className="button is-primary" onClick={()=>setIsOpen_2(true)}>Eliminar</button>
                     </span>
             </div>
                 <ul>
@@ -130,6 +133,14 @@ export default function ListaPlaylist() {
                     onClose ={()=>setIsOpen(false)}
                     />
                 )}
+                {isOpen_2 && (
+                    <PlaylistEliminar
+                    isOpen_2={isOpen_2}
+                    onClose={()=>setIsOpen_2(false)}
+                    />
+                )}
+                
+                
             </div>
         </div>
         </>
