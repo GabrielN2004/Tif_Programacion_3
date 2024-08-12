@@ -31,8 +31,12 @@ export default function ArtistsPage() {
                     <ArtistList />
                 </div>
             </section>
-            {/* Modal para crear un nuevo artista */}
+
+            
             <ArtistCrear isOpenn={isModalOpen} onClose={handleCloseModal} />
+
+            
+
         </div>
     );
     }
