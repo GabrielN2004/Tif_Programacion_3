@@ -33,8 +33,9 @@ export default function Navbar() {
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/albums">Albums</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/playlists">Playlists</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artistas</a>
+          
         </div>
-
+      
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="field has-addons">
