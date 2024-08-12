@@ -5,6 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isActive, setIsActive] = useState(false); // Estado para controlar si el menú está activo o no
 
   useEffect(() => {
     if (isDarkMode) {
@@ -18,21 +19,32 @@ export default function Navbar() {
     setIsDarkMode(prevMode => !prevMode);
   };
 
+  const toggleMenu = () => {
+    setIsActive(!isActive);
+  };
+
   return (
     <nav className={`navbar ${isDarkMode ? 'has-background-dark has-text-white' : 'is-light'}`} role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <a className="navbar-item" href="/">
           <h1 className={`title ${isDarkMode ? 'has-text-white' : 'has-text-black'}`}>HarmonyHub</h1>
         </a>
+
+        {/* Botón de hamburguesa */}
+        <div className={`navbar-burger burger ${isActive ? 'is-active' : ''}`} onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
       </div>
 
-      <div className="navbar-menu">
+      <div className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
         <div className="navbar-start">
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/">Home</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./songs">Songs</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/albums">Albums</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/playlists">Playlists</a>
-          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artistas</a>
+          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artists</a>
         </div>
 
         <div className="navbar-end">
