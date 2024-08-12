@@ -91,7 +91,6 @@ export default function ModifySong({ isModificarOpen, OnCloseModificar }) {
         const selected = songs.find(song => song.id === songId);
         setSelectedSong(selected);
         if (selected) {
-            // Actualizar valores en los inputs
             if (titleRef.current) titleRef.current.value = selected.title;
             if (yearRef.current) yearRef.current.value = selected.year;
             if (albumRef.current) albumRef.current.value = selected.album;
@@ -109,10 +108,10 @@ export default function ModifySong({ isModificarOpen, OnCloseModificar }) {
     
         try {
             const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}harmonyhub/songs/${selectedSong.id}/`, {
-                method: 'PUT', // Asegúrate de usar el método correcto (PUT o PATCH)
+                method: 'PUT', 
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Token ${token}`, // O usa Bearer ${token} si tu API lo requiere
+                    Authorization: `Token ${token}`, 
                 },
                 body: JSON.stringify(updatedSong),
             });
@@ -123,9 +122,8 @@ export default function ModifySong({ isModificarOpen, OnCloseModificar }) {
                         song.id === selectedSong.id ? { ...selectedSong, ...updatedSong } : song
                     )
                 );
-                OnCloseModificar(); // Cierra el modal después de guardar
+                OnCloseModificar(); 
             } else {
-                // Mostrar error detallado del servidor
                 const errorData = await response.json();
                 console.error('Error al actualizar la canción:', errorData);
             }

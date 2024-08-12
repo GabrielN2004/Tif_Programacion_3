@@ -6,7 +6,7 @@ export default function CrearSongs({ isOpenN, onClose }) {
     const { token } = useAuth("state");
     const [songData, setSongData] = useState({ title: "", year: "", album: "" });
     const [songFile, setSongFile] = useState(null);
-    const [coverImage, setCoverImage] = useState(null); // Nuevo estado para la imagen
+    const [coverImage, setCoverImage] = useState(null); 
     const [submitting, setSubmitting] = useState(false);
 
     const handleInputChange = (event) => {
@@ -17,7 +17,7 @@ export default function CrearSongs({ isOpenN, onClose }) {
         if (event.target.name === "song_file") {
             setSongFile(event.target.files[0]);
         } else if (event.target.name === "cover_image") {
-            setCoverImage(event.target.files[0]); // Actualiza el estado de la imagen
+            setCoverImage(event.target.files[0]); 
         }
     };
 
@@ -33,7 +33,7 @@ export default function CrearSongs({ isOpenN, onClose }) {
                 newForm.append("song_file", songFile);
             }
             if (coverImage) {
-                newForm.append("cover", coverImage); // Agrega la imagen al formulario
+                newForm.append("cover", coverImage); 
             }
 
             fetch(`${import.meta.env.VITE_API_BASE_URL}/harmonyhub/songs/`, {

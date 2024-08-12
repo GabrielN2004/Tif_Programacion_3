@@ -7,6 +7,7 @@ import PlaylistCrear from "./ModalPlaylist/PlaylistCrear";
 import { useAuth } from "../contexts/AuthContext";
 import PlaylistEliminar from "./ModalPlaylist/PlaylistEliminar";
 import PlaylistModificar from "./ModalPlaylist/PlaylistModificar";
+import FooterBar from "./Footer";
 
 
 export default function ListaPlaylist() {
@@ -84,7 +85,7 @@ export default function ListaPlaylist() {
     
 
     return(
-        <>
+    <div>
         <Navbar/>
         <div>
             <div className="my-5">
@@ -152,6 +153,7 @@ export default function ListaPlaylist() {
                 
             </div>
         </div>
-        </>
+        <FooterBar/>
+    </div>
     )
 }

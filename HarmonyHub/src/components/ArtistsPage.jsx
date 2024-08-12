@@ -1,6 +1,7 @@
 import React from 'react';
 import ArtistList from './ArtistList';
 import Navbar from './Navbar';  // Asumiendo que tienes un componente Navbar
+import FooterBar from './Footer';
 
 export default function ArtistsPage() {
     return (
@@ -12,6 +13,7 @@ export default function ArtistsPage() {
                     <ArtistList />
                 </div>
             </section>
+            <FooterBar/>
         </div>
     );
 }

@@ -83,7 +83,6 @@ export default function DeleteSongModal({ isOpen, onClose }) {
     };
 
     const handleDelete = (song_Id) => {
-        // Aquí implementas la lógica para eliminar la canción, por ejemplo:
         fetch(`${import.meta.env.VITE_API_BASE_URL}harmonyhub/songs/${song_Id}/`, {
             method: "DELETE",
             headers: {

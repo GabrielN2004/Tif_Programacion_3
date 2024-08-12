@@ -6,8 +6,6 @@ import CrearSongs from './ModalSongs/ModalCrear';
 import DeleteSongModal from './ModalSongs/ModalDelete';
 import ModifySong from './ModalSongs/ModalModificar';
 
-
-
 export default function SongsPage() {
     const [page, setPage] = useState(1);
     const [songs, setSongs] = useState([]);
@@ -54,6 +52,12 @@ export default function SongsPage() {
         doFetch();
     }, [page, filters]);
 
+    function handleLoadMore() {
+        if (nextUrl) {
+            setPage((currentPage) => currentPage + 1);
+        }
+    }
+
     useEffect(() => {
         if (isLoading) return;
 
@@ -89,94 +93,76 @@ export default function SongsPage() {
         setPage(1);
     };
 
-    const openModal = (song) => {
-        setSelectedSong(song);
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedSong(null);
-    };
-
     if (isError) return <p>Error al cargar las canciones.</p>;
     if (!songs.length && !isLoading) return <p>No hay canciones disponibles</p>;
 
     return (
         <div>
-    <Navbar />
-    <div className="my-5">
-        <header>
-            <h2 className="title">Lista de Canciones</h2>
-            <div className="buttons is-flex" style={{alignContent:"center", marginLeft:"38.5%"}}>
-                <button className="button is-primary" onClick={() => setIsModalOpen_2(true)} style={{margin:"10px"}}>
-                    <span>Crear</span>
-                </button>
-                <button className="button is-danger" onClick={() => setIsModalOpen(true)} style={{margin:"10px"}}>
-                    <span>Eliminar</span>
-                </button>
-                <button className="button is-info" onClick={() => setIsModificarOpen(true)} style={{margin:"10px"}}>
-                    <span>Modificar</span>
-                </button>
-            </div>
-        </header>
-        <form className="box" onSubmit={handleSearch}>
-            <div className="field">
-                <label className="label">Título:</label>
-                <div className="control">
-                    <input className="input" type="text" name="title" />
-                </div>
-            </div>
-            <div className="field">
-                <button className="button is-primary" type="submit">
-                    Buscar
-                </button>
-            </div>
-        </form>
-        <ul>
-            {songs.map((song, index) => {
-                if (songs.length === index + 1) {
-                    return (
+            <Navbar />
+            <div className="my-5">
+                <header>
+                    <h2 className="title">Lista de Canciones</h2>
+                    <div className="buttons is-flex" style={{alignContent:"center", marginLeft:"38.5%"}}>
+                        <button className="button is-primary" onClick={() => setIsModalOpen_2(true)} style={{margin:"10px"}}>
+                            <span>Crear</span>
+                        </button>
+                        <button className="button is-danger" onClick={() => setIsModalOpen(true)} style={{margin:"10px"}}>
+                            <span>Eliminar</span>
+                        </button>
+                        <button className="button is-info" onClick={() => setIsModificarOpen(true)} style={{margin:"10px"}}>
+                            <span>Modificar</span>
+                        </button>
+                    </div>
+                </header>
+                <form className="box" onSubmit={handleSearch}>
+                    <div className="field">
+                        <label className="label">Título:</label>
+                        <div className="control">
+                            <input className="input" type="text" name="title" />
+                        </div>
+                    </div>
+                    <div className="field">
+                        <button className="button is-primary" type="submit">
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+                <ul>
+                    {songs.map((song, index) => (
                         <div
                             key={song.id}
-                            ref={lastSongElementRef}
+                            ref={index === songs.length - 1 ? lastSongElementRef : null}
                             className="column is-two-thirds"
                         >
                             <SongsCard song={song} user_ID={user__id} />
                         </div>
-                    );
-                } else {
-                    return (
-                        <div
-                            key={song.id}
-                            className="column is-two-thirds"
-                        >
-                            <SongsCard song={song} user_ID={user__id} />
-                        </div>
-                    );
-                }
-            })}
-        </ul>
-        {isLoading && <p>Cargando más canciones...</p>}
-    </div>
-    {isModalOpen && (
-        <DeleteSongModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-        />
-    )}
-    {isModalOpen_2 && (
-        <CrearSongs
-            isOpenN={isModalOpen_2}
-            onClose={() => setIsModalOpen_2(false)}
-        />
-    )}
-    {isModificarOpen && (
-        <ModifySong
-            isModificarOpen={isModificarOpen}
-            OnCloseModificar={() => setIsModificarOpen(false)}
-        />
-    )}
-</div>
+                    ))}
+                </ul>
+                {isLoading && <p>Cargando más canciones...</p>}
+                {nextUrl && !isLoading && (
+                    <button className="button is-link" onClick={handleLoadMore} style={{marginTop: '20px'}}>
+                        Cargar Más
+                    </button>
+                )}
+            </div>
+            {isModalOpen && (
+                <DeleteSongModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            )}
+            {isModalOpen_2 && (
+                <CrearSongs
+                    isOpenN={isModalOpen_2}
+                    onClose={() => setIsModalOpen_2(false)}
+                />
+            )}
+            {isModificarOpen && (
+                <ModifySong
+                    isModificarOpen={isModificarOpen}
+                    OnCloseModificar={() => setIsModificarOpen(false)}
+                />
+            )}
+        </div>
     );
 }
