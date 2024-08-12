@@ -44,10 +44,14 @@ export default function Navbar() {
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="./songs">Songs</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/albums">Albums</a>
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/playlists">Playlists</a>
+<<<<<<< HEAD
           <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artists</a>
+=======
+          <a className={`navbar-item ${isDarkMode ? 'has-text-white' : ''}`} href="/artists">Artistas</a>
+          
+>>>>>>> 0af721d4ff68bf6575b2da124f4ec28f9a3fab09
         </div>
-
-        <div className="navbar-end">
+         <div className="navbar-end">
           <div className="navbar-item">
             <div className="field has-addons">
               <div className="control">
